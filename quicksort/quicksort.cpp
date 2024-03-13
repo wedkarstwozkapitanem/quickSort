@@ -1,6 +1,6 @@
 ﻿#include<iostream>
 #include<math.h>
-
+#include <time.h>
 
 template<typename T>
 void quickSort(T* tab, const int lewy, const int prawy);
@@ -13,11 +13,22 @@ void wypisz(const T* tab, const int rozmiar) {
 
 
 int main() {
+	srand(time(NULL));
 
-	int liczby[] = {6,4,7,8,3,24};
-	quickSort(liczby,0,sizeof(liczby)/sizeof(liczby[0]) - 1);
+	std::cout << "Ile ma byc liczb?: ";
+	int ileLiczb{}; std::cin >> ileLiczb;
+	
+	std::cout << "Jakiej wielkosci?: ";
+	int przedzial{}; std::cin >> przedzial;
 
-	for (auto& i : liczby) std::cout << i << " ";
+	double* liczby = new double[ileLiczb];
+	for (int i{ }; i < ileLiczb; i++) {
+		liczby[i] = rand() % przedzial + 1;
+	}
+
+	quickSort(liczby,0,ileLiczb - 1);
+
+	for (int i{ }; i < ileLiczb;i++) std::cout << liczby[i] << " ";
 	return EXIT_SUCCESS;
 }
 
@@ -26,7 +37,6 @@ template<typename T>
 void quickSort(T* tab,const int lewy,const int prawy) {
 	if (prawy <= lewy) return;
 	int i = lewy-1,j = prawy+1, pivot =std::min(std::max(tab[(lewy + prawy)/2],tab[0]),std::max(tab[(lewy + prawy) / 2], tab[prawy]));
-	std::cout << "Pivot: " << pivot << ": ";
 
 	while (true) {
 		while (tab[++i] < pivot);
